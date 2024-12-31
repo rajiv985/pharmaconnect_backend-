@@ -15,4 +15,5 @@ import mongoose from "mongoose";
         console.log("error in connecting to db",err.message)
     }
  }
-  export default connectDB;
+  export default connectDB; 
+  

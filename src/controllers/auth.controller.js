@@ -41,10 +41,8 @@ const register = asynchandler(async (req, res) => {
 });
 
 
+// router.post('/login', async (req, res) => {
 const login = asynchandler(async (req, res) => {
-  // router.post('/login', async (req, res) => {
-
-
   try {
     const { email, password } = req.body;
 
@@ -77,7 +75,7 @@ const login = asynchandler(async (req, res) => {
         id: user._id,
         email: user.email,
       }
-    }, 'secret', { expiresIn: '1h' });
+    }, 'secret', { expiresIn: '1h' });  
 
     res
       .status(200)
@@ -90,4 +88,4 @@ const login = asynchandler(async (req, res) => {
   }
 });
 
-export { register, login }
+export { register, login} 

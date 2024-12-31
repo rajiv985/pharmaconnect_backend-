@@ -6,11 +6,13 @@ const UserSchema = new mongoose.Schema({
     email:String,
     password:String,
     location:String,
-    phonenumber:String,
+    phonenumber:String, 
+
     isEmailVerified: {
     type: Boolean,
     default: false
 },
+
 refreshToken: {
     type: String,  // Store refresh token for authentication
 },
@@ -20,4 +22,4 @@ role : {
     default: "user"
 },
 });
-export default mongoose.model("User", UserSchema)
+export default mongoose.model("user", UserSchema) 
