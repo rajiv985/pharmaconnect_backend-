@@ -1,12 +1,15 @@
-import orderModels from "../models/order.models.js";
+//import orderModels from "../models/order.models.js";  
 import { diyo } from "../controllers/order.controller.js"; 
 
 import { Router } from "express"; 
 
-const router= Router();
-router.route("/diyo").post(diyo)   
+const router=Router();
 
-export  default router;
+router.route("/diyo").post(diyo)  ; 
+ 
+export default router;
+
+
 
 
 

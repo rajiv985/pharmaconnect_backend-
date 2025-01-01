@@ -7,7 +7,7 @@ import Product from "../models/product.models.js"
 const diyo= (async (req, res) => { 
     try {
         const { userId, products } = req.body;
-        console.log(req.body)
+        console.log(req.body)  
 
         if (!userId || !products || products.length === 0) {
             return res.status(400).send("Invalid order data.");

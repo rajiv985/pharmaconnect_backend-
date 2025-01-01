@@ -1,7 +1,9 @@
-import User from "../models/user.model.js";
+import User from "../models/user.models.js"; 
 import { ApiError } from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
-//import asyncHandler from "../utils/asyncHandler.js";
+import asyncHandler from "../utils/asynchandler.js";
+
+
 
 //get user
 const getUserById = asyncHandler(async (req, res) => {
@@ -9,7 +11,7 @@ const getUserById = asyncHandler(async (req, res) => {
 
   try {
     const userId  = req.params.id;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId); 
     if (!user) {
       throw new ApiError(404, "User not found");
     }
@@ -20,7 +22,7 @@ const getUserById = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.log("Error during fetching user: ", error.message);
-    throw new ApiError(500, error.message || "Error fetching user");
+    throw new ApiError(500, error.message || "Error fetching user");  
   }
 });
 

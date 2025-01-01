@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-    ProductId:Number,
-    Name: String,
-    Description: String,
-    Price:Number,
-    Category:String,
-    Stock:Number,
+    name: String,
+    price:String,
+    image:String,
+    expirydate: String,
+
 
 refreshToken : {
     type:String,  // Store refresh token for authentication
