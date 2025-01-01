@@ -11,8 +11,8 @@ app.use(express.json())
 app.use("/auth",authRoutes);
 app.use("/order",orderRoutes); 
 app.use("/user",userRoutes);
-app.use("/product",productRoutes); 
-
+app.use("/product",productRoutes);  
+app.use("/",(req,res)=>{res.json({message:"welcome to backend,rajiv,happy new year 2025"})})
 
 app.use(errorHandler)
 export default app;
