@@ -20,6 +20,14 @@ const register = asynchandler(async (req, res) => {
     throw new ApiError(404, "All fields are required");
   }
 
+  const existingUser = await User.findOne({ 
+    $or: [{ email }, { phoneNumber }]
+  });
+  if (existingUser) {
+    const errorField = existingUser.email === email ? "Email" : "Phone number";
+    throw new ApiError(400, `${errorField} already exists`);
+  }
+
   const hashedpassword = await bcrypt.hash(req.body.password, 10);
 
   if(!hashedpassword){
@@ -75,7 +83,15 @@ const login = asynchandler(async (req, res) => {
         id: user._id,
         email: user.email,
       }
-    }, 'secret', { expiresIn: '1h' });  
+    }, process.env.ACCESS_TOKEN_SECRET,
+    
+     { expiresIn: '1h' }
+    );  
+
+    const options={
+      httpOnly:true,
+      secure:true,
+    };
 
     res
       .status(200)

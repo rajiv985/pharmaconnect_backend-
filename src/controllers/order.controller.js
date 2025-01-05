@@ -35,7 +35,7 @@ const diyo= asynchandler(async (req, res) => {
                     .send(`Product ${item.productId} is out of stock or invalid.`);
             }
         }
-        totalAmount += product.price * item.quantity;
+        totalAmount += Product.price * item.quantity;
 
         // Create new order
         const newOrder = new Order({
