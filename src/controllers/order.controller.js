@@ -8,6 +8,7 @@ import ApiResponse from "../utils/apiResponse.js";
 
 // Create Order Route
 const diyo= asynchandler(async (req, res) => { 
+    console.log("this is order")
     try {
         const { userId, products } = req.body;
         console.log(req.body)    
@@ -34,8 +35,8 @@ const diyo= asynchandler(async (req, res) => {
                     .status(400)
                     .send(`Product ${item.productId} is out of stock or invalid.`);
             }
+            totalAmount += product.price * item.quantity;
         }
-        totalAmount += Product.price * item.quantity;
 
         // Create new order
         const newOrder = new Order({

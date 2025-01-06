@@ -5,8 +5,8 @@ import ApiResponse from "../utils/apiResponse.js";
 import asynchandler from "../utils/asynchandler.js";
 
 const addToCart = asynchandler(async (req, res) => {
-  const { productId } = req.body;
-  const userId = req.user.id; 
+  const { productId, } = req.body;
+  const userId = req.user.id;
 
   if (!productId) {
     throw new ApiError(400, "Product ID are required.");
@@ -25,11 +25,22 @@ const addToCart = asynchandler(async (req, res) => {
       products: [],
     });
   }
-  
-  newCart.products.push({
-    productId: productData._id,
-    productName: productData.name,
-  })
+
+  // Check if the product already exists in the cart
+  const existingProductIndex = newCart.products.findIndex(
+    (item) => item.productId.toString() === productId
+  );
+
+  if (existingProductIndex !== -1) {
+    //newCart.products[existingProductIndex].quantity += 1;
+    throw new ApiError(400, "Product already exists in cart.");
+
+  } else {
+    newCart.products.push({
+      productId: productData._id,
+      productName: productData.name,
+    });
+  }
 
   const savedCart = await newCart.save();
   res
@@ -37,4 +48,70 @@ const addToCart = asynchandler(async (req, res) => {
     .json(new ApiResponse(201, savedCart, "Cart created successfully."));
 });
 
-export { addToCart };
+//get cart
+const getCartById = asynchandler(async (req, res) => {
+  try {
+    const cartId = req.params.id;
+
+    const cart = await Cart.findById(cartId);
+    if (!cart) {
+      throw new ApiError(404, "Cart not found.");
+    }
+    {
+      res
+        .status(200)
+        .json(new ApiResponse(200, cart, "Cart fetched successfully."));
+    }
+  } catch (error) {
+    console.log("Error during fetching cart: ", error.message);
+    throw new ApiError(500, error.message || "Error fetching cart");
+  }
+});
+
+const deleteProductFromCart = asynchandler(async (req, res) => {
+  const { productId } = req.body; 
+  const userId = req.user.id; 
+
+  if (!productId) {
+    throw new ApiError(400, "Product ID is required.");
+  }
+
+  const newCart = await Cart.findOne({ userId });
+  if (!newCart) {
+    throw new ApiError(404, "Cart not found for the user.");
+  }
+
+  const productIndex = newCart.products.findIndex(
+    (item) => item.productId.toString() === productId
+  );
+
+  if (productIndex === -1) {
+    throw new ApiError(404, "Product not found in the cart.");
+  }
+
+  newCart.products.splice(productIndex, 1);
+
+  const updatedCart = await newCart.save();
+
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, updatedCart, "Product removed from cart successfully.")
+    );
+});
+
+
+const deleteCart = asynchandler(async (req, res) => {
+  const cartId = req.params.id;
+
+  const deleteCart = await Cart.findByIdAndDelete(cartId);
+  if (!deleteCart) {
+    throw new ApiError(404, "Cart not found.");
+  }
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, deleteCart, "Cart deleted successfully."));
+});
+
+export { addToCart, getCartById, deleteProductFromCart, deleteCart };
