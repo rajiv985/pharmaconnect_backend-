@@ -1,19 +1,19 @@
 import Product from "../models/product.models.js";
 import asynchandler from "../utils/asynchandler.js";
 import { ApiError } from "../utils/apiError.js";
-import ApiResponse from "../utils/apiResponse.js";
+import ApiResponse from "../utils/apiResponse.js"; 
 
 // Create a new product
-const createProduct = asynchandler(async (req, res) => {
+const createProduct = asynchandler(async (req, res) => {  
   try {
-    const { name, price, image,expirydate } = req.body; 
+    const { name, price, image,expirydate, } = req.body; 
 
     if (
-      [name, price,image,expirydate].some((field) => {
+      [name, price,image,expirydate,quantity].some((field) => {
         !field || field.trim() === "";
       })
     ) {
-      throw new ApiError(400, "All fields are required");
+      throw new ApiError(400, "All fields are required");  
     }
 
     const newProduct = new Product({
