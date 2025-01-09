@@ -1,6 +1,6 @@
 import { createProduct,getAllProducts,getProductById,updateProduct,deleteProduct } from "../controllers/product.controller.js";  
 
-import { verifyUser } from "../middleware/auth.middleware.js";
+import { verifyUser } from "../middleware/auth.middleware.js"; 
 
 import { Router } from "express";
 

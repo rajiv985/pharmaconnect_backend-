@@ -6,12 +6,11 @@ import ApiResponse from "../utils/apiResponse.js";
 import bcrypt from "bcrypt"
 
 
-// for register
+// register ko lagi gareko 
 const register = asynchandler(async (req, res) => {
   console.log(req.body)
   const { firstName, lastName, phoneNumber, email, location, password } = req.body;
 
-  console.log(req.body);
   if (
     [firstName, lastName, phoneNumber, email, location, password].some((field) => {
       field.trim() === "";
@@ -21,11 +20,11 @@ const register = asynchandler(async (req, res) => {
   }
 
   const existingUser = await User.findOne({ 
-    $or: [{ email }, { phoneNumber }]
+    $or: [{ email }, { phoneNumber }] 
   });
-  if (existingUser) {
-    const errorField = existingUser.email === email ? "Email" : "Phone number";
-    throw new ApiError(400, `${errorField} already exists`);
+  if (existingUser) {  
+    const errorField = existingUser.email === email ? "Email" : "Phone number"; 
+    throw new ApiError(400, `${errorField} already exists`); 
   }
 
   const hashedpassword = await bcrypt.hash(req.body.password, 10);
@@ -63,9 +62,8 @@ const login = asynchandler(async (req, res) => {
       throw new ApiError(404, "All fields are required");
     }
 
-    // Check if user exists in the database
+    // user database ma xa ki naiii 0check gareko 
     const user = await User.findOne({ email });
-    console.log("student", user)
 
     if (!user) {
       return res.status(404).send({ message: 'User not found or credentials are incorrect' });
@@ -77,6 +75,7 @@ const login = asynchandler(async (req, res) => {
     if (!isPasswordValid) {
       throw new ApiError(401, "Password not match" );
     }
+  
 
     const accessToken = jwt.sign({
       data: {

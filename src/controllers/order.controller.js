@@ -42,6 +42,7 @@ const createOrder = asynchandler(async (req, res) => {
     paymentStatus: "Pending",
   });
 
+
   //if order is already been placed
   // const existingOrder= await Order.findOne({ userId});
   // if (existingOrder) {
