@@ -1,4 +1,4 @@
-import { addImage } from "../controllers/auth.controller.js";
+import {addImage}  from "../controllers/image.controllers.js";
 
 import { Router } from "express";
 
