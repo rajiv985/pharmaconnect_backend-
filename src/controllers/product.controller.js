@@ -6,21 +6,23 @@ import ApiResponse from "../utils/apiResponse.js";
 // Create a new product
 const createProduct = asynchandler(async (req, res) => {  
   try {
-    const { name, price, image,expirydate, } = req.body; 
+    const { name, price,expirydate, } = req.body; 
 
     if (
-      [name, price,image,expirydate,quantity].some((field) => {
+      [name, price,expirydate,].some((field) => {
         !field || field.trim() === "";
       })
     ) {
       throw new ApiError(400, "All fields are required");  
     }
+    console.log(req.file);
+    const image=req.file.path; 
 
     const newProduct = new Product({
       name,
       price,
-      image,
       expirydate,
+      image
     });
 
     const savedProduct = await newProduct.save();
@@ -120,4 +122,4 @@ export {
   getProductById,
   updateProduct,
   deleteProduct,
-};
+}; 

@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+const pharmaSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
     email:String,
     password:String,
-    location:String,
     phonenumber:String, 
 
     isEmailVerified: {
@@ -19,7 +18,7 @@ refreshToken: {
 role : {
     type: String,
     enum: ["admin","user","seller"],
-    default: "user"
+    default: "seller"
 },
 });
-export default mongoose.model("User", UserSchema)  
+export default mongoose.model("seller", pharmaSchema)  

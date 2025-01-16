@@ -6,21 +6,20 @@ import userRoutes from"./routes/user.route.js"
 import productRoutes from"./routes/product.route.js" 
 import cookieParser from "cookie-parser"
 import cartRoutes from "./routes/cart.route.js"
+import pharmaRoutes from "./routes/pharm.route.js"
 import cors from "cors"
-import upload from "./middleware/multer.middleware.js"
-import imageRoutes from "./routes/image.route.js" 
+
+
 
 
 const app=express();
 app.use(express.json())
 app.use(cors())
-app.post('/upload',upload.single('profile'),function (req,res,next){
-    res.status(200).json({message:"sucessfully done"})
-})
 
-app.use(cookieParser())
-app.use("/photo",imageRoutes);
+
+app.use(cookieParser()); 
 app.use("/auth",authRoutes);
+app.use("/pharma",pharmaRoutes);
 app.use("/order",orderRoutes); 
 app.use("/user",userRoutes);
 app.use("/product",productRoutes);  

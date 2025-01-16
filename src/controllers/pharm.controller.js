@@ -1,4 +1,4 @@
-import User from "../models/user.models.js"
+import seller from "../models/pharm.models.js"
 import asynchandler from "../utils/asynchandler.js";
 import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/apiError.js";
@@ -7,23 +7,23 @@ import bcrypt from "bcrypt"
 
 
 // register ko lagi gareko 
-const register = asynchandler(async (req, res) => {
+const Pregister = asynchandler(async (req, res) => {
   console.log(req.body)
-  const { firstName, lastName, phoneNumber, email, location, password } = req.body;
+  const { firstName, lastName, phoneNumber, email,password } = req.body;
 
   if (
-    [firstName, lastName, phoneNumber, email, location, password].some((field) => {
+    [firstName, lastName, phoneNumber, email,  password].some((field) => {
       field.trim() === "";
     })
   ) {
     throw new ApiError(404, "All fields are required");
   }
 
-  const existingUser = await User.findOne({ 
+  const existingseller = await seller.findOne({ 
     $or: [{ email }, { phoneNumber }] 
   });
-  if (existingUser) {  
-    const errorField = existingUser.email === email ? "Email" : "Phone number"; 
+  if (existingseller) {  
+    const errorField = existingseller.email === email ? "Email" : "Phone number"; 
     throw new ApiError(400, `${errorField} already exists`); 
   }
 
@@ -33,23 +33,22 @@ const register = asynchandler(async (req, res) => {
     throw new ApiError(400, "error in creating hashed password")
   }
 
-  const savedUser = new User({
+  const savedUser = new seller({
     firstName,
     lastName,
     phoneNumber,
     email,
-    location,
     password: hashedpassword
   }).save();
 
   res
   .status(201)
-  .json(new ApiResponse(201, "user registered succesfully"));
+  .json(new ApiResponse(201, "seller registered succesfully"));
 });
 
 
-// router.post('/login', async (req, res) => {
-const login = asynchandler(async (req, res) => {
+
+const Plogin = asynchandler(async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -63,7 +62,7 @@ const login = asynchandler(async (req, res) => {
     }
 
     // user database ma xa ki naiii 0check gareko 
-    const user = await User.findOne({ email });
+    const user = await seller.findOne({ email });
 
     if (!user) {
       return res.status(404).send({ message: 'User not found or credentials are incorrect' });
@@ -103,4 +102,4 @@ const login = asynchandler(async (req, res) => {
   }
 });
 
-export { register, login}  
+export { Pregister, Plogin}  
