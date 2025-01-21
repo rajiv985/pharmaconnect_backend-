@@ -10,19 +10,16 @@ import pharmaRoutes from "./routes/pharm.route.js"
 import cors from "cors"
 
 
-
-
 const app=express();
 app.use(express.json())
 app.use(cors())
-
 
 app.use(cookieParser()); 
 app.use("/auth",authRoutes);
 app.use("/pharma",pharmaRoutes);
 app.use("/order",orderRoutes); 
 app.use("/user",userRoutes);
-app.use("/product",productRoutes);  
+app.use("/product",productRoutes);      
 app.use("/cart",cartRoutes);
 app.get("/",(req,res)=>{res.json({message:"welcome to backend,rajiv,happy new year 2025"})})
 

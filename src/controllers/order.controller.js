@@ -1,6 +1,6 @@
 import Order from "../models/order.models.js";
 import Cart from "../models/cart.models.js";
-import User from "../models/user.models.js";
+import User from "../models/user.models.js"; 
 import Product from "../models/product.models.js";
 import { ApiError } from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";

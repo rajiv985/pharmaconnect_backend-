@@ -1,10 +1,13 @@
+
 import Product from "../models/product.models.js";
 import asynchandler from "../utils/asynchandler.js";
 import { ApiError } from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js"; 
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 // Create a new product
 const createProduct = asynchandler(async (req, res) => {  
+
   try {
     const { name, price,expirydate, } = req.body; 
 
