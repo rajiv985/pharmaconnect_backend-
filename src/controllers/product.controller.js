@@ -18,14 +18,19 @@ const createProduct = asynchandler(async (req, res) => {
     ) {
       throw new ApiError(400, "All fields are required");  
     }
-    console.log(req.file);
-    const image=req.file.path; 
+    console.log("this is req",req.file);
+    const productImage = req.file;
+    const productImageLocalPath = productImage ? productImage.path :null;
+    console.log("THis is url",productImageLocalPath) ;
+
+    const productPath = await uploadOnCloudinary(productImageLocalPath)
+    console.log("THis is product path ",productPath);
 
     const newProduct = new Product({
       name,
       price,
       expirydate,
-      image
+      image:productPath.url,
     });
 
     const savedProduct = await newProduct.save();

@@ -1,5 +1,6 @@
 import {v2 as cloudinary} from "cloudinary" //imports the v2 version of Cloudinary's API 
 import fs from "fs"
+import 'dotenv/config' ;
 //fs =>file system :for reading(readFileSync), writing, deleting files(unlinkSync)
 
 cloudinary.config({ 
@@ -9,6 +10,7 @@ cloudinary.config({
 });
 
 const uploadOnCloudinary = async (localFilePath) => {
+    console.log("THis is localpath",localFilePath)
     try {
         if (!localFilePath) {
             console.log("No local file path")
@@ -16,7 +18,9 @@ const uploadOnCloudinary = async (localFilePath) => {
         }
 
         //cloudinary ma file upload garna
-        const response = await cloudinary.uploader.upload(localFilePath, {resource_type: "auto"})
+        const response = await cloudinary.uploader.upload(localFilePath, {resource_type: "auto",folder:"pharmaconnect"})
+        console.log("file is uploaded on cloudinary ", response);
+
         console.log("file is uploaded on cloudinary ", response.url);
         fs.unlinkSync(localFilePath) //local file delete after upload
         return response;   //access the details of the uploaded file.
