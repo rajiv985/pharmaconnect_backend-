@@ -7,25 +7,22 @@ import bcrypt from "bcrypt"
 
 
 // register ko lagi gareko 
-const Pregister = asynchandler(async (req, res) => {
+const Pregister = asynchandler(async (req, res,next) => {
   console.log(req.body)
-  const { firstName, lastName, phoneNumber, email,password,pharmacyName} = req.body;
+  const { firstName, lastName, phoneNumber, email,password,location,pharmacyName} = req.body;
 
-  if (
-    [firstName, lastName, phoneNumber, email,password, pharmacyName].some((field) => {
-      !field||field.trim() === "";
-    })
-  ) {
-    throw new ApiError(404, "All fields are required");
+ 
+  if ([firstName, lastName, phoneNumber, email, location, password,pharmacyName].some((field) => !field || field.trim() === "")) {
+    return next(new ApiError(400, "All fields are required"));
   }
 
-  const existingseller = await seller.findOne({ 
-    $or: [{ email }, { phoneNumber }] 
-  });
-  if (existingseller) {  
-    const errorField = existingseller.email === email ? "Email" : "Phone number"; 
-    throw new ApiError(400, `${errorField} already exists`); 
-  }
+    const existingUser = await seller.findOne({ 
+       $or: [{ email }, { phoneNumber }] 
+     });
+     if (existingUser) {  
+       const errorField = existingUser.email === email ? "Email" : "Phone number"; 
+       return next(new ApiError(400, `${errorField} already exists`)); 
+     }
 
   const hashedpassword = await bcrypt.hash(req.body.password, 10);
 
@@ -51,28 +48,24 @@ const Pregister = asynchandler(async (req, res) => {
 const Plogin = asynchandler(async (req, res) => {
   try {
     const { email, password } = req.body;
-
     console.log(req.body);
-    if (
-      [email, password].some((field) => {
-        field.trim() === "";
-      })
-    ) {
-      throw new ApiError(404, "All fields are required");
+
+    if ([ email, password].some((field) => !field || field.trim() === "")) {
+      return next(new ApiError(400, "All fields are required"));
     }
 
     // user database ma xa ki naiii 0check gareko 
     const user = await seller.findOne({ email });
 
     if (!user) {
-      return res.status(404).send({ message: 'User not found or credentials are incorrect' });
+      return next(new ApiError(400, "User not found or credentials are incorrect"));
     }
 
     //password checking 
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new ApiError(401, "Password not match" );  
+      return next(new ApiError(400, "password is incorrect"));  
     }
   
 
