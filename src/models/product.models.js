@@ -23,7 +23,7 @@ refreshToken : {
 role : {
     type: String,
     enum: ["admin","user","seller"],
-    default: "seller"
+    default: "user"
 },
 });
 export default mongoose.model("Product", productSchema)

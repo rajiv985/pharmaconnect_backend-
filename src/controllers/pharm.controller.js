@@ -35,7 +35,9 @@ const Pregister = asynchandler(async (req, res,next) => {
     lastName,
     phoneNumber,
     email,
-    password: hashedpassword
+    pharmacyName,
+    location,
+    password: hashedpassword 
   }).save();
 
   res
@@ -45,7 +47,7 @@ const Pregister = asynchandler(async (req, res,next) => {
 
 
 
-const Plogin = asynchandler(async (req, res) => {
+const Plogin = asynchandler(async (req, res,next) => {
   try {
     const { email, password } = req.body;
     console.log(req.body);
@@ -55,39 +57,39 @@ const Plogin = asynchandler(async (req, res) => {
     }
 
     // user database ma xa ki naiii 0check gareko 
-    const user = await seller.findOne({ email });
+    const Seller = await seller.findOne({ email });
 
-    if (!user) {
-      return next(new ApiError(400, "User not found or credentials are incorrect"));
+    if (!Seller) {
+      return next(new ApiError(400, " seller not found or credentials are incorrect"));
     }
 
     //password checking 
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, Seller.password);
     if (!isPasswordValid) {
       return next(new ApiError(400, "password is incorrect"));  
     }
   
 
-    const accessToken = jwt.sign({
-      data: {
-        id: user._id,
-        email: user.email,
-      }
-    }, process.env.ACCESS_TOKEN_SECRET,
+    // const accessToken = jwt.sign({
+    //   data: {
+    //     id: user._id,
+    //     email: Seller.email,
+    //   }
+    // }, process.env.ACCESS_TOKEN_SECRET,
     
-     { expiresIn: '1h' }
-    );  
+    //  { expiresIn: '1h' }
+    // );  
 
-    const options={
-      httpOnly:true,
-      secure:true,
-    };
+    // const options={
+    //   httpOnly:true,
+    //   secure:true,
+    // };
 
     res
       .status(200)
-      .cookie("accessToken", accessToken)
-      .json(new ApiResponse(200, user, "login sucessfully"))
+      //.cookie("accessToken", accessToken)
+      .json(new ApiResponse(200, Seller, "login sucessfully"))
 
   } catch (error) {
     console.error('Error during login:', error);

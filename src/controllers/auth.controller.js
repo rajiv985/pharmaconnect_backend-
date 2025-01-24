@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import bcrypt from "bcrypt"
+import 'dotenv/config' 
 
 
 // register ko lagi gareko 
@@ -80,13 +81,17 @@ const register = asynchandler(async (req, res, next) => {
   
       const accessToken = jwt.sign({
         data: {
-          id: User._id,
-          email: User.email,
+          id: user._id,
+          email: user.email,
         }
-      }, process.env.ACCESS_TOKEN_SECRET,
+      }, process.env.ACCESS_TOKEN_SECRET,  
+
       
-       { expiresIn: '1h' }
-      );  
+      { expiresIn: '1h' }
+      
+    );  
+    console.log("Access Token Secret:", process.env.ACCESS_TOKEN_SECRET)
+      console.log(accessToken)
   
       const options={
         httpOnly:true,
@@ -95,8 +100,9 @@ const register = asynchandler(async (req, res, next) => {
   
       res
         .status(200)
-        .cookie("accessToken", accessToken)
+        .cookie("accessToken", accessToken,options) 
         .json(new ApiResponse(200, user, "login sucessfully"))
+        
   
     } catch (error) {
       console.error('Error during login:', error);

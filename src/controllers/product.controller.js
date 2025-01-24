@@ -6,7 +6,7 @@ import ApiResponse from "../utils/apiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 // Create a new product
-const createProduct = asynchandler(async (req, res) => {  
+const createProduct = asynchandler(async (req, res,) => {  
 
   try {
     const { name, price,expirydate, } = req.body; 

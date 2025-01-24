@@ -4,6 +4,7 @@ const pharmaSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
     email:String,
+    location:String,
     password:String,
     phonenumber:String, 
     pharmacyName:String,
