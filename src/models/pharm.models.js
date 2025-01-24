@@ -6,6 +6,8 @@ const pharmaSchema = new mongoose.Schema({
     email:String,
     password:String,
     phonenumber:String, 
+    pharmacyName:String,
+
 
     isEmailVerified: {
     type: Boolean,

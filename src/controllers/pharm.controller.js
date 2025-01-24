@@ -9,11 +9,11 @@ import bcrypt from "bcrypt"
 // register ko lagi gareko 
 const Pregister = asynchandler(async (req, res) => {
   console.log(req.body)
-  const { firstName, lastName, phoneNumber, email,password } = req.body;
+  const { firstName, lastName, phoneNumber, email,password,pharmacyName} = req.body;
 
   if (
-    [firstName, lastName, phoneNumber, email,  password].some((field) => {
-      field.trim() === "";
+    [firstName, lastName, phoneNumber, email,password, pharmacyName].some((field) => {
+      !field||field.trim() === "";
     })
   ) {
     throw new ApiError(404, "All fields are required");

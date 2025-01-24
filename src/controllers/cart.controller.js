@@ -21,7 +21,7 @@ const addToCart = asynchandler(async (req, res) => {
   let newCart = await Cart.findOne({ userId });
   if (!newCart) {
     newCart = new Cart({
-      userId,
+      userId, 
       products: [],
       totalAmount,
     });

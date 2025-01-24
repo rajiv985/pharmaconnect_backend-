@@ -18,8 +18,8 @@ const createProduct = asynchandler(async (req, res) => {
     ) {
       throw new ApiError(400, "All fields are required");  
     }
+    const productImage = req.file; 
     console.log("this is req",req.file);
-    const productImage = req.file;
     const productImageLocalPath = productImage ? productImage.path :null;
     console.log("THis is url",productImageLocalPath) ;
 
