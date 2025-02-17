@@ -19,7 +19,7 @@ app.use("/auth",authRoutes);
 app.use("/pharma",pharmaRoutes);
 app.use("/order",orderRoutes); 
 app.use("/user",userRoutes);
-app.use("/product",productRoutes);      
+app.use("/products",productRoutes);      
 app.use("/cart",cartRoutes);
 app.get("/",(req,res)=>{res.json({message:"welcome to backend,rajiv,happy new year 2025"})})
 

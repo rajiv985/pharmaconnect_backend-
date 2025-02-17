@@ -7,7 +7,7 @@ import { Router } from "express";
 const router=Router();
 
 router.route("/createproduct").post( verifyUser,upload.single('productImage'),createProduct)
-router.route("/").get(getAllProducts)
+router.route("/getAllProduct").get(getAllProducts)
 router.route("/:id").get( verifyUser, getProductById)
 router.route("/:id").put( verifyUser, updateProduct)
 router.route("/:id").delete( verifyUser,deleteProduct)  
