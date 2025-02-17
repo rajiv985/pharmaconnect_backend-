@@ -1,6 +1,7 @@
 // models/cart.models.js
 import mongoose from "mongoose";
 
+
 const cartSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -14,8 +15,20 @@ const cartSchema = new mongoose.Schema({
         ref: "Product",
         required: true,
       },
+      productName:{
+        type:String,
+        required:true,
+      },
+      productprice:{
+        type:String,
+        required:true,
+      }
     },
   ],
+  totalAmount:{
+    type:String,
+    required:true,
+  },
   updatedAt: {
     type: Date,
     default: Date.now,

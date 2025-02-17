@@ -6,10 +6,10 @@ import { Router } from "express";
 
 const router=Router();
 
-router.route("/Createorder").post(verifyUser, createOrder)  ; 
-router.route("/order").get(verifyUser, getOrderById)  ; 
-router.route("/order").put(verifyUser, updateOrder)  ; 
-router.route("/order").delete(verifyUser, deleteOrder)  ; 
+router.route("/CreateOrder").post(verifyUser, createOrder); 
+router.route("/getOrderById/:id").get(verifyUser, getOrderById); 
+router.route("/UpdateOrder/:id").put(verifyUser, updateOrder); 
+router.route("/deleteorder/:id").delete(verifyUser, deleteOrder); 
  
 export default router;
 
