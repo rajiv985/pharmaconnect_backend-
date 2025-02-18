@@ -41,6 +41,7 @@ const register = asynchandler(async (req, res, next) => {
     }).save();
 
     res.status(201).json(new ApiResponse(201, "User registered successfully"));
+
   } catch (error) {
     console.error("Error during registration:", error);
     return next(new ApiError(500, "Error during registration"));
@@ -91,7 +92,7 @@ const register = asynchandler(async (req, res, next) => {
       
     );  
     console.log("Access Token Secret:", process.env.ACCESS_TOKEN_SECRET)
-      console.log(accessToken)
+      console.log(accessToken) 
   
       const options={
         httpOnly:true,
@@ -101,7 +102,7 @@ const register = asynchandler(async (req, res, next) => {
       res
         .status(200)
         .cookie("accessToken", accessToken,options) 
-        .json(new ApiResponse(200, user, "login sucessfully"))
+        .json(new ApiResponse(200, { user, token: accessToken }, "Login successfully"));
         
   
     } catch (error) {
