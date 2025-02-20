@@ -1,4 +1,4 @@
-import { getProfile,getUserById,updateUser,deleteUser, getProfile } from "../controllers/user.controller.js"; 
+import { getProfile,getUserById,updateUser,deleteUser } from "../controllers/user.controller.js"; 
 
 import { verifyUser } from "../middleware/auth.middleware.js"; 
 import { Router } from "express"; 

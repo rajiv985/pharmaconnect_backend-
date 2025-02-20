@@ -27,7 +27,7 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 });
 const getProfile = asynchandler(async (req,res)=>{
-  res.status(200).jspn(new ApiResponse (200,req.user,"user profile fetched sucessfully"))
+  res.status(200).json(new ApiResponse (200,req.user,"user profile fetched sucessfully"))
 })
 
 //update user
