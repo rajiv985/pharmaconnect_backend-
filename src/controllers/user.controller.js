@@ -1,6 +1,7 @@
 import User from "../models/user.models.js"; 
 import { ApiError } from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
+import asynchandler from "../utils/asynchandler.js";
 import asyncHandler from "../utils/asynchandler.js";
 
 
@@ -25,6 +26,9 @@ const getUserById = asyncHandler(async (req, res) => {
     throw new ApiError(500, error.message || "Error fetching user");  
   }
 });
+const getProfile = asynchandler(async (req,res)=>{
+  res.status(200).jspn(new ApiResponse (200,req.user,"user profile fetched sucessfully"))
+})
 
 //update user
 const updateUser = asyncHandler(async (req, res) => {
@@ -73,4 +77,4 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { getUserById, updateUser, deleteUser };
+export { getProfile, getUserById, updateUser, deleteUser };
