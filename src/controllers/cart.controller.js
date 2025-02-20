@@ -5,7 +5,7 @@ import ApiResponse from "../utils/apiResponse.js";
 import asynchandler from "../utils/asynchandler.js";
 
 const addToCart = asynchandler(async (req, res) => {
-  const { productId, } = req.body;
+  const { productId } = req.body;
   const userId = req.user.id;
 
   if (!productId) {
