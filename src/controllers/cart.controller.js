@@ -87,12 +87,18 @@ const deleteProductFromCart = asynchandler(async (req, res) => {
   if (!productId) {
     throw new ApiError(400, "Product ID is required.");
   }
+
   const newCart = await Cart.findOne({ userId });
   if (!newCart) {
     throw new ApiError(404, "Cart not found for the user.");
   }
 
-  const product = Product.findById(productId);
+  // Fetch the product correctly using await
+  const product = await Product.findById(productId);
+  if (!product) {
+    throw new ApiError(404, "Product not found.");
+  }
+
   const productIndex = newCart.products.findIndex(
     (item) => item.productId.toString() === productId
   );
@@ -101,16 +107,19 @@ const deleteProductFromCart = asynchandler(async (req, res) => {
     throw new ApiError(404, "Product not found in the cart.");
   }
 
+  // Remove the product from the cart
   newCart.products.splice(productIndex, 1);
-  newCart.totalAmount = newCart.totalAmount - product.price;
+
+  // Ensure product price is correctly subtracted
+  newCart.totalAmount -= product.price;
+
   const updatedCart = await newCart.save();
 
-  res
-    .status(200)
-    .json(
-      new ApiResponse(200, updatedCart, "Product removed from cart successfully.")
-    );
+  res.status(200).json(
+    new ApiResponse(200, updatedCart, "Product removed from cart successfully.")
+  );
 });
+
 
 
 const deleteCart = asynchandler(async (req, res) => {
