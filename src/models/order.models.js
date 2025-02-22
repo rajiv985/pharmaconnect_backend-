@@ -42,6 +42,10 @@ const orderSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    // paymentMethod:{
+    //     type:String,
+    //     enum:["cash on delivery"]
+    // },
 });
 
 // Create the Order model

@@ -56,7 +56,7 @@ const getCartById = asynchandler(async (req, res) => {
   try {
     const cartId = req.params.id;
 
-    const cart = await Cart.findById(cartId);
+    const cart = await Cart.findOne({userId:userId});
     if (!cart) {
       throw new ApiError(404, "Cart not found.");
     }
