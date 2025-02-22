@@ -13,6 +13,7 @@ const addToCart = asynchandler(async (req, res) => {
   }
 
   const productData = await Product.findById(productId);
+  console.log(productData);
   if (!productData) {
     throw new ApiError(400, `Product ${productId} is invalid.`);
   } 
@@ -31,7 +32,7 @@ const addToCart = asynchandler(async (req, res) => {
   const existingProductIndex = newCart.products.findIndex(
     (item) => item.productId.toString() === productId
   );
-  console.log(productData); 
+  // console.log(productData); 
   
   if (existingProductIndex!==-1){
     throw new ApiError(400,"product already exist in cart")
@@ -45,6 +46,9 @@ const addToCart = asynchandler(async (req, res) => {
     console.log("bjjgjhg");  
 
     const productsPrice=productData.price;
+    console.log("ProductData", productData);
+    console.log("new cart",newCart);
+
     newCart.totalAmount=newCart.totalAmount+productsPrice; 
   }    
   
@@ -77,7 +81,7 @@ const getCartById = asynchandler(async (req, res) => {
 );
 
 const deleteProductFromCart = asynchandler(async (req, res) => {
-  const { productId } = req.body; 
+  const { productId } = req.params; 
   const userId = req.user.id; 
 
   if (!productId) {
