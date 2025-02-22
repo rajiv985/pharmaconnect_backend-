@@ -82,7 +82,7 @@ const getCartById = asynchandler(async (req, res) => {
 
 const deleteProductFromCart = asynchandler(async (req, res) => {
   const { productId } = req.params; 
-  const userId = req.user.id; 
+  const userId = req.user._id; 
 
   if (!productId) {
     throw new ApiError(400, "Product ID is required.");
