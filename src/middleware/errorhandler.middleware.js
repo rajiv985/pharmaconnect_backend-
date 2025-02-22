@@ -5,7 +5,7 @@ const errorHandler = (err, req, res, next) => {
     const errors = err.errors || [];
 console.log("there is error in error handler",err)
     // Send the structured response
-    res.status(statusCode).json({
+   return res.status(statusCode).json({
         success: false,
         message: message, 
         errors: errors,   // Additional error details if available

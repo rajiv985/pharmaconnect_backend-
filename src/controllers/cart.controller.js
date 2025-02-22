@@ -59,25 +59,22 @@ const addToCart = asynchandler(async (req, res) => {
 
 //get cart
 const getCartById = asynchandler(async (req, res) => {
-  try {
     const cartId = req.params.id;
 
     const userId = req.user._id;
+    console.log("user in get", userId)
 
     const cart = await Cart.findOne({userId:userId});
     if (!cart) {
       throw new ApiError(404, "Cart not found.");
     }
     {
-      res
+     return res
         .status(200)
         .json(new ApiResponse(200, cart, "Cart fetched successfully."));
     }
-  } catch (error) {
-    console.log("Error during fetching cart: ", error.message);
-    throw new ApiError(500, error.message || "Error fetching cart");
   }
-});
+);
 
 const deleteProductFromCart = asynchandler(async (req, res) => {
   const { productId } = req.body; 
