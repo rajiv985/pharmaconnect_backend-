@@ -41,10 +41,12 @@ const addToCart = asynchandler(async (req, res) => {
       productName:productData.name,
       productprice:productData.price,
     });
-    console.log("bjjgjhg");
-    const productsPrice=Number(productData.price);
-    newCart.totalAmount=Number(newCart.totalAmount)+productsPrice;
-  }
+
+    console.log("bjjgjhg");  
+
+    const productsPrice=productData.price;
+    newCart.totalAmount=newCart.totalAmount+productsPrice; 
+  }    
   
 
   const savedCart = await newCart.save();

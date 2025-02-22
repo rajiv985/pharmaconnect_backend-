@@ -20,13 +20,13 @@ const cartSchema = new mongoose.Schema({
         required:true,
       },
       productprice:{
-        type:String,
+        type:Number,
         required:true,
       }
     },
   ],
   totalAmount:{
-    type:String,
+    type:Number,
     required:true,
   },
   updatedAt: {
