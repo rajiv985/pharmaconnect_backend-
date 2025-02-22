@@ -102,7 +102,7 @@ const deleteProductFromCart = asynchandler(async (req, res) => {
   }
 
   newCart.products.splice(productIndex, 1);
-  newCart.totalAmount = -product.price;
+  newCart.totalAmount = newCart.totalAmount - product.price;
   const updatedCart = await newCart.save();
 
   res
