@@ -16,13 +16,13 @@ const addToCart = asynchandler(async (req, res) => {
   console.log(productData);
   if (!productData) {
     throw new ApiError(400, `Product ${productId} is invalid.`);
-  } 
-  
-  let totalAmount=0;
+  }
+
+  let totalAmount = 0;
   let newCart = await Cart.findOne({ userId });
   if (!newCart) {
     newCart = new Cart({
-      userId, 
+      userId,
       products: [],
       totalAmount,
     });
@@ -33,66 +33,66 @@ const addToCart = asynchandler(async (req, res) => {
     (item) => item.productId.toString() === productId
   );
   // console.log(productData); 
-  
-  if (existingProductIndex!==-1){
-    throw new ApiError(400,"product already exist in cart")
-  }else{
+
+  if (existingProductIndex !== -1) {
+    throw new ApiError(400, "product already exist in cart")
+  } else {
     newCart.products.push({
-      productId:productData.id,
-      productName:productData.name,
-      productprice:productData.price,
+      productId: productData.id,
+      productName: productData.name,
+      productprice: productData.price,
     });
 
-    console.log("bjjgjhg");  
+    console.log("bjjgjhg");
 
-    const productsPrice=productData.price;
+    const productsPrice = productData.price;
     console.log("ProductData", productData);
-    console.log("new cart",newCart);
+    console.log("new cart", newCart);
 
-    newCart.totalAmount=newCart.totalAmount+productsPrice; 
-  }    
-  
+    newCart.totalAmount = newCart.totalAmount + productsPrice;
+  }
+
 
   const savedCart = await newCart.save();
   res
     .status(201)
     .json(new ApiResponse(201, savedCart, "Cart created successfully."));
-}); 
+});
 
 
 
 //get cart
 const getCartById = asynchandler(async (req, res) => {
-    const cartId = req.params.id;
+  const cartId = req.params.id;
 
-    const userId = req.user._id;
-    console.log("user in get", userId)
+  const userId = req.user._id;
+  console.log("user in get", userId)
 
-    const cart = await Cart.findOne({userId:userId});
-    if (!cart) {
-      throw new ApiError(404, "Cart not found.");
-    }
-    {
-     return res
-        .status(200)
-        .json(new ApiResponse(200, cart, "Cart fetched successfully."));
-    }
+  const cart = await Cart.findOne({ userId: userId });
+  if (!cart) {
+    throw new ApiError(404, "Cart not found.");
   }
+  {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, cart, "Cart fetched successfully."));
+  }
+}
 );
 
 const deleteProductFromCart = asynchandler(async (req, res) => {
-  const { productId } = req.params; 
-  const userId = req.user._id; 
+  const { productId } = req.params;
+  const userId = req.user._id;
 
   if (!productId) {
     throw new ApiError(400, "Product ID is required.");
   }
-
   const newCart = await Cart.findOne({ userId });
   if (!newCart) {
     throw new ApiError(404, "Cart not found for the user.");
   }
 
+  const product = Product.findById(productId);
   const productIndex = newCart.products.findIndex(
     (item) => item.productId.toString() === productId
   );
@@ -102,7 +102,7 @@ const deleteProductFromCart = asynchandler(async (req, res) => {
   }
 
   newCart.products.splice(productIndex, 1);
-
+  newCart.totalAmount = -product.price;
   const updatedCart = await newCart.save();
 
   res
