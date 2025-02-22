@@ -9,10 +9,10 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 const createProduct = asynchandler(async (req, res,) => {  
 
   try {
-    const { name, price,expirydate, } = req.body; 
+    const { name, price,expirydate,description,category } = req.body; 
 
     if (
-      [name, price,expirydate,].some((field) => {
+      [name, price,expirydate].some((field) => {
         !field || field.trim() === "";
       })
     ) {
@@ -30,6 +30,8 @@ const createProduct = asynchandler(async (req, res,) => {
       name,
       price,
       expirydate,
+      description,
+      category,
       image:productPath.url,
     });
 
