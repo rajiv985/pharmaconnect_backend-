@@ -31,6 +31,8 @@ const addToCart = asynchandler(async (req, res) => {
   const existingProductIndex = newCart.products.findIndex(
     (item) => item.productId.toString() === productId
   );
+  console.log(productData); 
+  
   if (existingProductIndex!==-1){
     throw new ApiError(400,"product already exist in cart")
   }else{
@@ -49,12 +51,16 @@ const addToCart = asynchandler(async (req, res) => {
   res
     .status(201)
     .json(new ApiResponse(201, savedCart, "Cart created successfully."));
-});
+}); 
+
+
 
 //get cart
 const getCartById = asynchandler(async (req, res) => {
   try {
     const cartId = req.params.id;
+
+    const userId = req.user._id;
 
     const cart = await Cart.findOne({userId:userId});
     if (!cart) {
