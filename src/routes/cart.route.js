@@ -7,8 +7,8 @@ const router=Router ();
 
 router.route("/manageCart").post(verifyUser, addToCart)
 router.route("/getCart").get(verifyUser, getCartById)
-router.route("/deleteProduct").put(verifyUser, deleteProductFromCart)
-router.route("/deleteCart/:productId").delete(verifyUser,deleteCart) 
+router.route("/deleteProduct/:productId").put(verifyUser, deleteProductFromCart)
+router.route("/deleteCart/:cartId").delete(verifyUser,deleteCart) 
 
 export default router ;
 
