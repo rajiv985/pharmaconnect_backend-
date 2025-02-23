@@ -48,7 +48,7 @@ const createProduct = asynchandler(async (req, res,) => {
 // Get all products
 const getAllProducts = asynchandler(async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().sort({createdAt: -1});
     if (products.length === 0) {
       throw new ApiError(404, "No products found");
     }
