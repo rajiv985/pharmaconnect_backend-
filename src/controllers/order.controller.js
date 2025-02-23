@@ -52,7 +52,7 @@ const createOrder = asynchandler(async (req, res) => {
   const savedOrder = await newOrder.save();
 
   // Clear user's cart after placing the order
-  // await Cart.findByIdAndDelete(cart.id);
+  await Cart.findByIdAndDelete(cart.id);
 
   res
     .status(201)
@@ -74,6 +74,21 @@ const getOrderById = asynchandler(async (req, res) => {
     }
   } catch (error) {
     console.log("Error during fetching order: ", error.message);
+    throw new ApiError(500, error.message || "Error fetching order");
+  }
+});
+
+const getAllOrder = asynchandler(async (req, res) => {
+  try {
+    const order = await Order.find().sort({createdAt: -1});
+    if (order.length === 0) {
+      throw new ApiError(404, "No order found");
+    }
+    res
+      .status(200)
+      .json(new ApiResponse(200, order, "order fetched successfully"));
+  } catch (error) {
+    console.error("Error fetching order:", error.message);
     throw new ApiError(500, error.message || "Error fetching order");
   }
 });
@@ -115,4 +130,4 @@ const deleteOrder = asynchandler(async (req, res) => {
     .json(new ApiResponse(200, deletedOrder, "Order deleted successfully."));
 });
 
-export { createOrder, getOrderById, updateOrder, deleteOrder };
+export { createOrder, getOrderById, updateOrder, deleteOrder,getAllOrder };
